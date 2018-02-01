@@ -117,7 +117,11 @@ class PlotStack4l:
   self.errorH350=0.
   self.errorH500=0.
   self.errorH800=0.
-  self.fullPathToTheGridProxy = '/home/bockjoo/.cmsuser.proxy'
+  self.fullPathToTheGridProxy = ''
+  if "X509_USER_PROXY" in os.environ:
+   if os.path.isfile(os.environ['X509_USER_PROXY']):
+    self.fullPathToTheGridProxy = os.environ['X509_USER_PROXY']
+    pass
   self.prefixForGlobalXrootdRedirector = 'root://cms-xrd-global.cern.ch/'
   self.outputyields = '/dev/null'
 
