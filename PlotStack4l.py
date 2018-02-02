@@ -66,7 +66,7 @@ class PlotStack4l:
 
  #  //inputfile="test4mu_13TeV.txt";
     
- def __init__(self,inputlist,histlabel):
+ def __init__(self,inputlist,histlabel, nrebin ):
   # string
   self.Vdatasetnamebkg = []
   self.Vdatasetnamesig = []
@@ -85,7 +85,7 @@ class PlotStack4l:
   self.Vcolorbkg = []
   self.Vcolorsig = [] #/*, Vcolordata*/
   
-  self.Nbins = 0; self.Xmin = 0.0; self.Xmax = 999.0
+  self.Nbins = nrebin ; self.Xmin = 0.0; self.Xmax = 999.0
   self.nRebinZ_X = 0.0; self.Ymax = 999.0
   self.histosdir = "/"
   #self.inputfile = "filelist_4l_2016_Spring16_AN_FNAL_miniaod.txt"
@@ -1351,7 +1351,7 @@ class PlotStack4l:
    print "DEBUG logMbins = ",logMbins
 
 
-   # In[6]:
+   # In[6]: hframe2 is for the ratio
    hframe= ROOT.TH2F("hframe","hframe",80,70.,1000.,500,5.,700.);#// 4l analysis mass nrebin=10 GeV # for the histlabel plot ? 
    hframe2= ROOT.TH2F("hframe2","hframe2",80,70.,1000.,1000, 0.5, 20.);#// 4l analysis mass # for the histlable ratio plot ?
 
@@ -1514,6 +1514,15 @@ class PlotStack4l:
 
 
    if ( "hMZ2_8" in histlabel and "4#mu" in self.whichchannel):
+     hframe= ROOT.TH2F("hframe","hframe",80,40.,200.,500,0.0001,100000.);#// mZ2 
+     hframe2= ROOT.TH2F("hframe2","hframe2",6000, 40., 160., 1000, 0.5, 2.);#// mZ2 
+
+
+   # added for plotExercises.py hMZ1_8 and plotExercises.py hMZ2_8
+   if ( "hMZ1_8" in histlabel and "4l" in self.whichchannel):
+     hframe= ROOT.TH2F("hframe","hframe",80,40.,200.,500,0.0001,100000.);#// mZ1 
+     hframe2= ROOT.TH2F("hframe2","hframe2",6000, 40., 160., 1000, 0.5, 2.);#// mZ1 
+   if ( "hMZ2_8" in histlabel and "4l" in self.whichchannel):
      hframe= ROOT.TH2F("hframe","hframe",80,40.,200.,500,0.0001,100000.);#// mZ2 
      hframe2= ROOT.TH2F("hframe2","hframe2",6000, 40., 160., 1000, 0.5, 2.);#// mZ2 
 
@@ -2774,7 +2783,7 @@ class PlotStack4l:
 
    #if 1 == 0 :
    #if "hMZ_3" in histlabel :
-   if "hMZ_3" in histlabel or "hPFMET_3" in histlabel :
+   if "hMZ_3" in histlabel or "hPFMET_3" in histlabel or "hM4l_7"  in histlabel or "hPFMET_8" in histlabel :
      print "INFO about to draw each background source in 10 seconds each plot is drawn after 5 seconds of sleep"
      c2 = ROOT.TCanvas("c2","c2",600,600)
      c2.cd()
@@ -3310,7 +3319,7 @@ class PlotStack4l:
 
 
    #if 1 == 0 :
-   if "hMZ_3" in histlabel or "hPFMET_3" in histlabel :
+   if "hMZ_3" in histlabel or "hPFMET_3" in histlabel or "hM4l_7"  in histlabel or "hPFMET_8" in histlabel :
     print "INFO about to draw possible signal sample in 10 seconds each plot is drawn after 5 seconds of sleep"
     Things_I_Can_Draw = [ hfourlepbestmass_4l_afterSel_new_monoH_MZP1200 , hfourlepbestmass_4l_newZpBaryonic_MZp500_MChi1 , hfourlepbestmass_4l_afterSel_new_monoH_DM1 , hfourlepbestmass_4l_afterSel_new_monoH_DM10 , hfourlepbestmass_4l_afterSel_new_monoH_DM100 , hfourlepbestmass_4l_afterSel_new_monoH_DM1000 , hfourlepbestmass_4l_afterSel_new_monoH_DM500 , hfourlepbestmass_4l_afterSel_new_monoH_MZP1000 , hfourlepbestmass_4l_afterSel_new_monoH_MZP1400 , hfourlepbestmass_4l_afterSel_new_monoH_MZP1700 , hfourlepbestmass_4l_afterSel_new_monoH_MZP2000 , hfourlepbestmass_4l_afterSel_new_monoH_MZP2500 , hfourlepbestmass_4l_afterSel_new_monoH_MZP600 , hfourlepbestmass_4l_afterSel_new_monoH_MZP800 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM1 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM10 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM100 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM1000 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM500 , hfourlepbestmass_4l_afterSel_new_signal125 , hfourlepbestmass_4l_newZpBaryonic_MZp10000_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp1000_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp100_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp10_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp2000_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp200_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp20_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp300_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp50_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp50_MChi10 , hfourlepbestmass_4l_afterSel_new_monoH_MZP1200 ,  hfourlepbestmass_4l_newZpBaryonic_MZp500_MChi1 ]
     print len(Things_I_Can_Draw)
