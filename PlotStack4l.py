@@ -2773,7 +2773,9 @@ class PlotStack4l:
    #c2 = ROOT.TCanvas("c2","c2",600,600)
 
    #if 1 == 0 :
-   if "hMZ_3" in histlabel :
+   #if "hMZ_3" in histlabel :
+   if "hMZ_3" in histlabel or "hPFMET_3" in histlabel :
+     print "INFO about to draw each background source in 10 seconds each plot is drawn after 5 seconds of sleep"
      c2 = ROOT.TCanvas("c2","c2",600,600)
      c2.cd()
      i=0
@@ -3307,7 +3309,9 @@ class PlotStack4l:
    #c1.Draw()
 
 
-   if 1 == 0 :
+   #if 1 == 0 :
+   if "hMZ_3" in histlabel or "hPFMET_3" in histlabel :
+    print "INFO about to draw possible signal sample in 10 seconds each plot is drawn after 5 seconds of sleep"
     Things_I_Can_Draw = [ hfourlepbestmass_4l_afterSel_new_monoH_MZP1200 , hfourlepbestmass_4l_newZpBaryonic_MZp500_MChi1 , hfourlepbestmass_4l_afterSel_new_monoH_DM1 , hfourlepbestmass_4l_afterSel_new_monoH_DM10 , hfourlepbestmass_4l_afterSel_new_monoH_DM100 , hfourlepbestmass_4l_afterSel_new_monoH_DM1000 , hfourlepbestmass_4l_afterSel_new_monoH_DM500 , hfourlepbestmass_4l_afterSel_new_monoH_MZP1000 , hfourlepbestmass_4l_afterSel_new_monoH_MZP1400 , hfourlepbestmass_4l_afterSel_new_monoH_MZP1700 , hfourlepbestmass_4l_afterSel_new_monoH_MZP2000 , hfourlepbestmass_4l_afterSel_new_monoH_MZP2500 , hfourlepbestmass_4l_afterSel_new_monoH_MZP600 , hfourlepbestmass_4l_afterSel_new_monoH_MZP800 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM1 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM10 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM100 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM1000 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM500 , hfourlepbestmass_4l_afterSel_new_signal125 , hfourlepbestmass_4l_newZpBaryonic_MZp10000_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp1000_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp100_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp10_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp2000_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp200_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp20_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp300_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp50_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp50_MChi10 , hfourlepbestmass_4l_afterSel_new_monoH_MZP1200 ,  hfourlepbestmass_4l_newZpBaryonic_MZp500_MChi1 ]
     print len(Things_I_Can_Draw)
     c2 = ROOT.TCanvas("c2","c2",600,600) ; c2.cd()
@@ -3471,6 +3475,7 @@ class PlotStack4l:
     Things_I_Can_Draw[i].Print()
     Things_I_Can_Draw[i].Draw("hist")  ; time.sleep(5)  ; c2 = ROOT.TCanvas("c2","c2",600,600) ; c2.cd() #; c2.Draw()
 
+    c1.cd()
 
    # In[20]:
 
