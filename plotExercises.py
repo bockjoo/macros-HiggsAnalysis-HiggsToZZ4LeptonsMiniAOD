@@ -48,12 +48,15 @@ os.environ['X509_VOMS_DIR'] = '/cvmfs/cms.cern.ch/grid/etc/grid-security/vomsdir
 inputlist = "filelist_4l_2016_Spring16_AN_Bari_miniaod_read_from_xroot.txt"
 inputlist = "filelist_4l_2016_Spring16_AN_Florida_miniaod.txt"
 histlabel =  "hMZ_3"
-histlabel = "hLogLinXM4l_T_8";
+histlabel = "hLogLinXM4l_T_8"
+nrebin = 1
+if len(sys.argv) == 1 : print "Please provide the histlabel at least" ; sys.exit(1)
 if len(sys.argv) > 1 : histlabel = sys.argv[1]
-if len(sys.argv) > 2 : histlabel = sys.argv[1] ; inputlist = sys.argv[2]
+if len(sys.argv) > 2 : histlabel = sys.argv[1] ; nrebin = sys.argv[2]
+if len(sys.argv) > 3 : histlabel = sys.argv[1] ; nrebin = sys.argv[2] ; inputlist = sys.argv[3]
 # WARNING: depending on histolabel, modify the declaration and the settings of hframe below
 
-thestack = PlotStack4l(inputlist,histlabel)
+thestack = PlotStack4l(inputlist,histlabel, nrebin)
 
 
 # In[3]:
