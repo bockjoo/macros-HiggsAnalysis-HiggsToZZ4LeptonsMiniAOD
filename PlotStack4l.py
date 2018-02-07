@@ -66,7 +66,7 @@ class PlotStack4l:
 
  #  //inputfile="test4mu_13TeV.txt";
     
- def __init__(self,inputlist,histlabel, nrebin ):
+ def __init__(self,inputlist,histlabel, nrebin, useLogY, useRatio ):
   # string
   self.Vdatasetnamebkg = []
   self.Vdatasetnamesig = []
@@ -85,7 +85,7 @@ class PlotStack4l:
   self.Vcolorbkg = []
   self.Vcolorsig = [] #/*, Vcolordata*/
   
-  self.Nbins = nrebin ; self.Xmin = 0.0; self.Xmax = 999.0
+  self.Nbins = 0 ; self.Xmin = 0.0; self.Xmax = 999.0
   self.nRebinZ_X = 0.0; self.Ymax = 999.0
   self.histosdir = "/"
   #self.inputfile = "filelist_4l_2016_Spring16_AN_FNAL_miniaod.txt"
@@ -103,12 +103,12 @@ class PlotStack4l:
   self.LoadLib =ROOT.TSystem() 
   self.histolabel = histlabel
 
-  self.useLogY = True
+  self.useLogY = useLogY # True is default
   self.useLogX = False
-  self.useRatio = True
+  self.useRatio = useRatio # True is default
   self.useDYJets=True
   self.useDYJetsFromData=False  
-  self.nRebin=1
+  self.nRebin=nrebin
 
   self.errorZZ=0.
   self.errorH125=0.
@@ -1399,8 +1399,13 @@ class PlotStack4l:
 
 
 
-   if ( "hM4l_9" in histlabel and "4#mu" in self.whichchannel):
+   # bockjoo if ( "hM4l_9" in histlabel and "4#mu" in self.whichchannel ):
+   if ( "hM4l_9" in histlabel and ( "4#mu" in self.whichchannel or "4e" in self.whichchannel or  "2e2#mu" in self.whichchannel )):
      hframe= ROOT.TH2F("hframe","hframe",80,70.,182.,500,0.000004,35.);#// 4l analysis mass nrebin=3
+     hframe2= ROOT.TH2F("hframe2","hframe2",6000, 70., 182., 1000, 0.5, 2.);#// 
+
+   if ( "hM4l_9" in histlabel and "4l" in self.whichchannel ):
+     hframe= ROOT.TH2F("hframe","hframe",80,70.,182.,500,0.000004,105.);#// 4l analysis mass nrebin=3
      hframe2= ROOT.TH2F("hframe2","hframe2",6000, 70., 182., 1000, 0.5, 2.);#// 
 
 
@@ -1508,12 +1513,10 @@ class PlotStack4l:
      hframe2= ROOT.TH2F("hframe2","hframe2",6000, 40., 200., 1000, 0.5, 2.);#// mZ2 
 
 
-   if ( "hMZ1_8" in histlabel and "4#mu" in self.whichchannel):
+   if ( "hMZ1_8" in histlabel and ( "4e" in self.whichchannel or "4#mu" in self.whichchannel or "2e2#mu" in self.whichchannel) ):
      hframe= ROOT.TH2F("hframe","hframe",80,40.,200.,500,0.0001,100000.);#// mZ1 
      hframe2= ROOT.TH2F("hframe2","hframe2",6000, 40., 160., 1000, 0.5, 2.);#// mZ1 
-
-
-   if ( "hMZ2_8" in histlabel and "4#mu" in self.whichchannel):
+   if ( "hMZ2_8" in histlabel and ( "4e" in self.whichchannel or "4#mu" in self.whichchannel or "2e2#mu" in self.whichchannel) ):
      hframe= ROOT.TH2F("hframe","hframe",80,40.,200.,500,0.0001,100000.);#// mZ2 
      hframe2= ROOT.TH2F("hframe2","hframe2",6000, 40., 160., 1000, 0.5, 2.);#// mZ2 
 
@@ -1588,7 +1591,8 @@ class PlotStack4l:
 
 
    #//TH2F *hframe= ROOT.TH2F("hframe","hframe",6000, 0., 200., 1000, 0.004, 700000.);#// ptZ
-
+   #print "DEBUG nRebin == ",self.nRebin
+   #sys.exit(0)
 
    if (self.nRebin==1):
      if (  "hLogX" in histlabel or  "hLogLinX" in histlabel ): hframe.SetYTitle("Events / GeV")
@@ -2783,7 +2787,10 @@ class PlotStack4l:
 
    #if 1 == 0 :
    #if "hMZ_3" in histlabel :
-   if "hMZ_3" in histlabel or "hPFMET_3" in histlabel or "hM4l_7"  in histlabel or "hPFMET_8" in histlabel :
+   #if "hMZ_3" in histlabel or "hPFMET_3" in histlabel or "hM4l_7"  in histlabel or "hPFMET_8" in histlabel :
+   #if "hMZ_3" in histlabel or "hPFMET_3" in histlabel or "hPFMET_8" in histlabel :
+   #if "hMZ_3" in histlabel or "hPFMET_3" in histlabel :
+   if "hPFMET_3" in histlabel :
      print "INFO about to draw each background source in 10 seconds each plot is drawn after 5 seconds of sleep"
      c2 = ROOT.TCanvas("c2","c2",600,600)
      c2.cd()
@@ -3319,7 +3326,10 @@ class PlotStack4l:
 
 
    #if 1 == 0 :
-   if "hMZ_3" in histlabel or "hPFMET_3" in histlabel or "hM4l_7"  in histlabel or "hPFMET_8" in histlabel :
+   #if "hMZ_3" in histlabel or "hPFMET_3" in histlabel or "hM4l_7"  in histlabel or "hPFMET_8" in histlabel :
+   #if "hMZ_3" in histlabel or "hPFMET_3" in histlabel or "hPFMET_8" in histlabel :
+   #if "hMZ_3" in histlabel or "hPFMET_3" in histlabel :
+   if "hPFMET_3" in histlabel :
     print "INFO about to draw possible signal sample in 10 seconds each plot is drawn after 5 seconds of sleep"
     Things_I_Can_Draw = [ hfourlepbestmass_4l_afterSel_new_monoH_MZP1200 , hfourlepbestmass_4l_newZpBaryonic_MZp500_MChi1 , hfourlepbestmass_4l_afterSel_new_monoH_DM1 , hfourlepbestmass_4l_afterSel_new_monoH_DM10 , hfourlepbestmass_4l_afterSel_new_monoH_DM100 , hfourlepbestmass_4l_afterSel_new_monoH_DM1000 , hfourlepbestmass_4l_afterSel_new_monoH_DM500 , hfourlepbestmass_4l_afterSel_new_monoH_MZP1000 , hfourlepbestmass_4l_afterSel_new_monoH_MZP1400 , hfourlepbestmass_4l_afterSel_new_monoH_MZP1700 , hfourlepbestmass_4l_afterSel_new_monoH_MZP2000 , hfourlepbestmass_4l_afterSel_new_monoH_MZP2500 , hfourlepbestmass_4l_afterSel_new_monoH_MZP600 , hfourlepbestmass_4l_afterSel_new_monoH_MZP800 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM1 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM10 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM100 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM1000 , hfourlepbestmass_4l_afterSel_new_monoH_scalar_DM500 , hfourlepbestmass_4l_afterSel_new_signal125 , hfourlepbestmass_4l_newZpBaryonic_MZp10000_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp1000_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp100_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp10_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp2000_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp200_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp20_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp300_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp50_MChi1 , hfourlepbestmass_4l_newZpBaryonic_MZp50_MChi10 , hfourlepbestmass_4l_afterSel_new_monoH_MZP1200 ,  hfourlepbestmass_4l_newZpBaryonic_MZp500_MChi1 ]
     print len(Things_I_Can_Draw)
@@ -3752,12 +3762,26 @@ class PlotStack4l:
 
 
    #Char_t outformat[20000]
+   latexOUTFile = ("plots/cutflow_%s_%s.tex" % (whichchannel, self.whichenergy))
+   latexOUTFD = open(latexOUTFile, "w")
+   latexOUTFD.write("\documentclass[a4paper,12pt]{article}\n")
+   latexOUTFD.write("\usepackage{geometry}\n")
+   latexOUTFD.write("\usepackage{pdflscape}\n")
+   latexOUTFD.write("\input epsf\n")
+   latexOUTFD.write("\pagestyle{plain}\n")
+   latexOUTFD.write("\\begin{document}\n")
+   latexOUTFD.write("\\bibliographystyle{plain}\n")
+   latexOUTFD.write("\\begin{landscape}\n")
 
-   print "\\begin{table*}[htbH] \n", "\\begin{center} \n", "\\resizebox{\\textwidth}{!}{% \n" , "\\begin{tabular}{ l | c | c | c | c | c | c | c | c | c | c | c |} \n" ,     "\\hline    \\hline"
+   #print "\\begin{table*}[htbH] \n", "\\begin{center} \n", "\\resizebox{\\textwidth}{!}{% \n" , "\\begin{tabular}{ l | c | c | c | c | c | c | c | c | c | c | c |} \n" ,     "\\hline    \\hline"
+   outformat = ("%s %s %s %s %s" % ("\\begin{table*}[htbH] \n", "\\begin{center} \n", "\\resizebox{\\textwidth}{!}{% \n" , "\\begin{tabular}{ l | c | c | c | c | c | c | c | c | c | c | c |} \n" ,     "\\hline    \\hline\n" ))
+   latexOUTFD.write ( outformat )
 
-
-   print "Channel: $" , whichchannel ,"$ & $Z\\gamma^{*},ZZ$ & $Z+js$ & $WZ,WW,W+js$ & $t \\bar{t}$ & $t \\bar{t}V$ & $VVV$ & $QCD$ & $SM \\, H$ & $Tot. \\, Bkg$  & Z' baryonic & Obs. \\\\" 
-   print "\\hline" 
+   #print "Channel: $" , whichchannel ,"$ & $Z\\gamma^{*},ZZ$ & $Z+js$ & $WZ,WW,W+js$ & $t \\bar{t}$ & $t \\bar{t}V$ & $VVV$ & $QCD$ & $SM \\, H$ & $Tot. \\, Bkg$  & Z' baryonic & Obs. \\\\" 
+   outformat = ( " %s %s %s %s" % ( "Channel: $" , whichchannel ,"$ & $Z\\gamma^{*},ZZ$ & $Z+js$ & $WZ,WW,W+js$ & $t \\bar{t}$ & $t \\bar{t}V$ & $VVV$ & $QCD$ & $SM \\, H$ & $Tot. \\, Bkg$  & Z' baryonic & Obs. \\\\","\n" ) )
+   latexOUTFD.write ( outformat )
+   outformat = ( " %s %s " % ("\\hline","\n") )
+   latexOUTFD.write ( outformat )
 
    outformat = ("HLT & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e  \\\\" % (
         nEvent_4l_w_ZZ.GetBinContent(5), nEvent_4l_w_ZZ.GetBinError(5),
@@ -3771,7 +3795,8 @@ class PlotStack4l:
         nEvent_4l_w_totalbkgMC.GetBinContent(5), nEvent_4l_w_totalbkgMC.GetBinError(5),
         nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinContent(5), nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinError(5),
         nEvent_4l_w_data.GetBinContent(5)))
-   print outformat 
+   #print outformat 
+   latexOUTFD.write ( outformat )
 
    outformat = ("$l^{+} l^{-}$, $12<m_{l^{+}l^{-}}<120$ & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e $ \\pm $ %.2e & %.2e  \\\\" % (
         nEvent_4l_w_ZZ.GetBinContent(8), nEvent_4l_w_ZZ.GetBinError(8),
@@ -3785,7 +3810,8 @@ class PlotStack4l:
         nEvent_4l_w_totalbkgMC.GetBinContent(8), nEvent_4l_w_totalbkgMC.GetBinError(8),
         nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinContent(8), nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinError(8),
         nEvent_4l_w_data.GetBinContent(8)))
-   print outformat 
+   #print outformat 
+   latexOUTFD.write ( outformat )
 
 
    #//%.2e & %.2e & %.2e & %.2e & %.2e & %.2e & %.2e & %.2e & %.2e & %.2e  \\\\",nEvent_4l_w_ZZ.GetBinContent(8),nEvent_4l_w_DY.GetBinContent(8),nEvent_4l_w_WZ_WW_Wj.GetBinContent(8),nEvent_4l_w_TT.GetBinContent(8),nEvent_4l_w_TTV.GetBinContent(8),nEvent_4l_w_VVV.GetBinContent(8),nEvent_4l_w_totSM_H.GetBinContent(8),nEvent_4l_w_totalbkgMC.GetBinContent(8),nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinContent(8),nEvent_4l_w_data.GetBinContent(8))
@@ -3803,7 +3829,8 @@ class PlotStack4l:
         nEvent_4l_w_totalbkgMC.GetBinContent(9), nEvent_4l_w_totalbkgMC.GetBinError(9),
         nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinContent(9), nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinError(9),
         int(nEvent_4l_w_data.GetBinContent(9))))
-   print outformat 
+   #print outformat 
+   latexOUTFD.write ( outformat )
 
    #//& %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f  \\\\",nEvent_4l_w_ZZ.GetBinContent(9),nEvent_4l_w_DY.GetBinContent(9),nEvent_4l_w_WZ_WW_Wj.GetBinContent(9),nEvent_4l_w_TT.GetBinContent(9),nEvent_4l_w_TTV.GetBinContent(9),nEvent_4l_w_VVV.GetBinContent(9),nEvent_4l_w_totSM_H.GetBinContent(9),nEvent_4l_w_totalbkgMC.GetBinContent(9),nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinContent(9),nEvent_4l_w_data.GetBinContent(9))
    #// print outformat 
@@ -3820,7 +3847,8 @@ class PlotStack4l:
         nEvent_4l_w_totalbkgMC.GetBinContent(12), nEvent_4l_w_totalbkgMC.GetBinError(12),
         nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinContent(12), nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinError(12),
         int(nEvent_4l_w_data.GetBinContent(12))))
-   print outformat 
+   #print outformat 
+   latexOUTFD.write ( outformat )
 
    #//& %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f  \\\\",nEvent_4l_w_ZZ.GetBinContent(12),nEvent_4l_w_DY.GetBinContent(12),nEvent_4l_w_WZ_WW_Wj.GetBinContent(12),nEvent_4l_w_TT.GetBinContent(12),nEvent_4l_w_TTV.GetBinContent(12),nEvent_4l_w_VVV.GetBinContent(12),nEvent_4l_w_totSM_H.GetBinContent(12),nEvent_4l_w_totalbkgMC.GetBinContent(12),nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinContent(12),nEvent_4l_w_data.GetBinContent(12))
    #//print outformat 
@@ -3837,7 +3865,8 @@ class PlotStack4l:
         nEvent_4l_w_totalbkgMC.GetBinContent(15), nEvent_4l_w_totalbkgMC.GetBinError(15),
         nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinContent(15), nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinError(15),
         int(nEvent_4l_w_data.GetBinContent(15))))
-   print outformat 
+   #print outformat 
+   latexOUTFD.write ( outformat )
    #//& %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f  \\\\",nEvent_4l_w_ZZ.GetBinContent(15),nEvent_4l_w_DY.GetBinContent(15),nEvent_4l_w_WZ_WW_Wj.GetBinContent(15),nEvent_4l_w_TT.GetBinContent(15),nEvent_4l_w_TTV.GetBinContent(15),nEvent_4l_w_VVV.GetBinContent(15),nEvent_4l_w_totSM_H.GetBinContent(15),nEvent_4l_w_totalbkgMC.GetBinContent(15),nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinContent(15),nEvent_4l_w_data.GetBinContent(15))
    #//print outformat 
 
@@ -3853,18 +3882,31 @@ class PlotStack4l:
         nEvent_4l_w_totalbkgMC.GetBinContent(22), nEvent_4l_w_totalbkgMC.GetBinError(22),
         nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinContent(22), nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinError(22),
         int(nEvent_4l_w_data.GetBinContent(22))))
-   print outformat 
+   #print outformat 
+   latexOUTFD.write ( outformat )
    #//& %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f & %.2f  \\\\",nEvent_4l_w_ZZ.GetBinContent(22),nEvent_4l_w_DY.GetBinContent(22),nEvent_4l_w_WZ_WW_Wj.GetBinContent(22),nEvent_4l_w_TT.GetBinContent(22),nEvent_4l_w_TTV.GetBinContent(22),nEvent_4l_w_VVV.GetBinContent(22),nEvent_4l_w_totSM_H.GetBinContent(22),nEvent_4l_w_totalbkgMC.GetBinContent(22),nEvent_4l_w_ZpBaryonic_MZp500_MChi1.GetBinContent(22),nEvent_4l_w_data.GetBinContent(22))
    #//print outformat 
 
-   print "\\hline \\hline \n" , "\\end{tabular} \n"  ,   "" 
+   #print "\\hline \\hline \n" , "\\end{tabular} \n"  ,   "" 
+   #print "}"
+   outformat = ( "%s %s %s" % ( "\\hline \\hline \n" , "\\end{tabular}"  ,   "\n" ) )
+   latexOUTFD.write ( outformat )
+   latexOUTFD.write ( "}\n" )
+   
 
 
+   #print "\\caption{Cut flow table the number of events passing the full selection for the $" , whichchannel , "$ final state, as obtained from simulation for background and signal and from real data with a luminosity of $35.9 fb^{-1}$. The signal sample correspond to the Z' baryonic model with $m_{Z'}=500$ GeV and $m_{\\chi}=1$ GeV; only statistical errors are quoted.}" 
+   latexOUTFD.write ( ( "%s %s %s" % ( "\\caption{Cut flow table the number of events passing the full selection for the $" , whichchannel , "$ final state, as obtained from simulation for background and signal and from real data with a luminosity of $35.9 \\fbinv$. The signal sample correspond to the Z' baryonic model with $m_{Z'}=500$ GeV and $m_{\\chi}=1$ GeV; only statistical errors are quoted.}\n" ) ) )
 
-   print "\\caption{Cut flow table the number of events passing the full selection for the $" , whichchannel , "$ final state, as obtained from simulation for background and signal and from real data with a luminosity of $35.9 \\fbinv$. The signal sample correspond to the Z' baryonic model with $m_{Z'}=500$ GeV and $m_{\\chi}=1$ GeV; only statistical errors are quoted.}" 
-
-   print "\\label{tab:yields" , whichchannel, "} \n" ,   "\\end{center} \n" ,    "\\end{table*}" 
-
+   #print "\\label{tab:yields" , whichchannel, "} \n" ,   "\\end{center} \n" ,    "\\end{table*}" 
+   outformat = ( " %s %s %s" % ( "\\label{tab:yields"+whichchannel+"} \n" ,   "\\end{center} \n" ,    "\\end{table*}\n"  ) )
+   #outformat = ( " %s %s %s %s" % ( "\\label{tab:yields" , whichchannel,   "\\end{center} \n" ,    "\\end{table*}"  ) )
+   latexOUTFD.write ( outformat )
+    
+   latexOUTFD.write("\end{landscape}\n")
+   latexOUTFD.write("\end{document}\n")
+   latexOUTFD.close()
+   print "INFO: cutflow table ", latexOUTFile , " created"
    #if ( "hM4l_9" in histlabel ) : self.outputyields.close()
         
 

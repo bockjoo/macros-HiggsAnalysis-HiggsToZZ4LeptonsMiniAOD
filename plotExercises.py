@@ -50,13 +50,23 @@ inputlist = "filelist_4l_2016_Spring16_AN_Florida_miniaod.txt"
 histlabel =  "hMZ_3"
 histlabel = "hLogLinXM4l_T_8"
 nrebin = 1
+useLogY = True
+useRatio = True
 if len(sys.argv) == 1 : print "Please provide the histlabel at least" ; sys.exit(1)
 if len(sys.argv) > 1 : histlabel = sys.argv[1]
-if len(sys.argv) > 2 : histlabel = sys.argv[1] ; nrebin = sys.argv[2]
-if len(sys.argv) > 3 : histlabel = sys.argv[1] ; nrebin = sys.argv[2] ; inputlist = sys.argv[3]
-# WARNING: depending on histolabel, modify the declaration and the settings of hframe below
+if len(sys.argv) > 2 : histlabel = sys.argv[1] ; nrebin = int(sys.argv[2])
+if len(sys.argv) > 3 : histlabel = sys.argv[1] ; nrebin = int(sys.argv[2]) ; useLogY = sys.argv[3]
+if len(sys.argv) > 4 : histlabel = sys.argv[1] ; nrebin = int(sys.argv[2]) ; useLogY = sys.argv[3] ; useRatio = sys.argv[4]
+if len(sys.argv) > 5 : histlabel = sys.argv[1] ; nrebin = int(sys.argv[2]) ; useLogY = sys.argv[3] ; useRatio = sys.argv[4] ; inputlist = sys.argv[5]
 
-thestack = PlotStack4l(inputlist,histlabel, nrebin)
+if "0" in useRatio : useRatio = False
+else : useRatio = True
+if "0" in useLogY : useLogY = False
+else : useLogY = True
+
+# WARNING: depending on histolabel, modify the declaration and the settings of hframe below
+print "nrebin = ",nrebin
+thestack = PlotStack4l(inputlist,histlabel, nrebin, useLogY, useRatio)
 
 
 # In[3]:
